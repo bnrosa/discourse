@@ -31,28 +31,30 @@ export default {
         `/notification/${user.get("id")}`,
         (data) => {
           const store = container.lookup("service:store");
-          const oldUnread = user.get("unread_notifications");
-          const oldHighPriority = user.get(
-            "unread_high_priority_notifications"
-          );
+          const oldUnread = user.unread_notifications;
+          const oldHighPriority = user.unread_high_priority_notifications;
+          const oldAllUnread = user.all_unread_notifications;
 
           user.setProperties({
             unread_notifications: data.unread_notifications,
             unread_high_priority_notifications:
               data.unread_high_priority_notifications,
             read_first_notification: data.read_first_notification,
+            all_unread_notifications: data.all_unread_notifications,
           });
 
           if (
             oldUnread !== data.unread_notifications ||
-            oldHighPriority !== data.unread_high_priority_notifications
+            oldHighPriority !== data.unread_high_priority_notifications ||
+            oldAllUnread !== data.all_unread_notifications
           ) {
             appEvents.trigger("notifications:changed");
 
             if (
               site.mobileView &&
               (data.unread_notifications - oldUnread > 0 ||
-                data.unread_high_priority_notifications - oldHighPriority > 0)
+                data.unread_high_priority_notifications - oldHighPriority > 0 ||
+                data.all_unread_notifications - oldAllUnread > 0)
             ) {
               appEvents.trigger("header:update-topic", null, 5000);
             }

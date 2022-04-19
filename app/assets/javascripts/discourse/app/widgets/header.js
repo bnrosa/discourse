@@ -73,11 +73,13 @@ createWidget("header-notifications", {
       contents.push(h("div.do-not-disturb-background", iconNode("moon")));
     } else {
       if (this.siteSettings.enable_revamped_user_menu) {
-        const unread = user.unread_notifications || 0;
-        const unreadHighPriority = user.unread_high_priority_notifications || 0;
+        const unread = user.all_unread_notifications || 0;
         const reviewables = user.reviewable_count || 0;
-        const count = unread + unreadHighPriority + reviewables;
-        if (unreadHighPriority && this._shouldHighlightAvatar()) {
+        const count = unread + reviewables;
+        if (
+          user.unread_high_priority_notifications &&
+          this._shouldHighlightAvatar()
+        ) {
           this._addAvatarHighlight(contents);
         }
         if (count) {

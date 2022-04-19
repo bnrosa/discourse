@@ -5,8 +5,8 @@
 {{else if this.items.length}}
   <ul>
     {{#each this.items as |notification|}}
-      {{#if notification.component}}
-        <notification.component @notification={{notification}}/>
+      {{#if notification.userMenuComponent}}
+        <notification.userMenuComponent @notification={{notification}}/>
       {{else}}
         <UserMenu::DefaultNotificationItem @notification={{notification}}/>
       {{/if}}

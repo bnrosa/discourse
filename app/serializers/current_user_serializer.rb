@@ -6,6 +6,7 @@ class CurrentUserSerializer < BasicUserSerializer
              :unread_notifications,
              :unread_private_messages,
              :unread_high_priority_notifications,
+             :all_unread_notifications,
              :read_first_notification?,
              :admin?,
              :notification_channel_position,
@@ -330,6 +331,10 @@ class CurrentUserSerializer < BasicUserSerializer
   end
 
   def include_grouped_unread_high_priority_notifications?
+    SiteSetting.enable_revamped_user_menu
+  end
+
+  def include_all_unread_notifications?
     SiteSetting.enable_revamped_user_menu
   end
 end

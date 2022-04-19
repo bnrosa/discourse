@@ -17,9 +17,6 @@ export default Component.extend({
 
   @bind
   _outsideClickHandler(e) {
-    if (this.isDestroyed || this.isDestroying) {
-      return;
-    }
     if (this.element.contains(e.target)) {
       return;
     }
