@@ -285,7 +285,7 @@ basic:
     client: true
   dark_mode_emails_active:
     default: false
-    hidden: true    
+    hidden: true
   relative_date_duration:
     client: true
     default: 30
@@ -1262,6 +1262,9 @@ email:
   enable_secondary_emails:
     client: true
     default: true
+    hidden: true
+  max_participant_names:
+    default: 10
     hidden: true
 
 files:
