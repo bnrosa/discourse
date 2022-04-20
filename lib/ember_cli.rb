@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module EmberCli
-  ALIASES ||= {
+  ALIASES = {
     "application" => "discourse",
     "discourse/tests/test-support-rails" => "test-support",
     "discourse/tests/test-helpers-rails" => "test-helpers"
