@@ -282,8 +282,11 @@ module Discourse
     Sprockets.register_mime_type 'application/javascript', extensions: ['.js', '.es6', '.js.es6'], charset: :unicode
     Sprockets.register_postprocessor 'application/javascript', DiscourseJsProcessor
 
-    # The sprockets sourcemap pipeline overrites our ember-cli-generated sourcemaps, so let's disable it
-    # (it doesn't work with our DiscourseJsProcessor anyway)
+    # The sprockets sourcemap pipeline does not support ingesting files with existing sourcemaps. Instead,
+    # it overwrites existing sourcemaps with useless sprockets-generated mappings.
+    # Also, for files with no existing sourcemaps, the DiscourseJsProcessor does not have sourcemap support,
+    # so the sprockets-generated sourcemap is not useful.
+    # Long-term we intend to use Ember CLI for all JS assets, and remove Sprockets.
     config.assets.configure do |env|
       env.cache = nil # TODO REMOVE THIS
       env.unregister_processor('application/javascript', Sprockets::Preprocessors::DefaultSourceMap)
@@ -292,7 +295,7 @@ module Discourse
 
     if EmberCli.enabled?
       Discourse::Application.initializer :prepend_ember_assets do |app|
-        # Needs to be in its own initializer so it runs after Sprockets' append_assets_path
+        # Needs to be in its own initializer so it runs after the append_assets_path initializer defined by Sprockets
         app.config.assets.paths.unshift "#{app.config.root}/app/assets/javascripts/discourse/dist/assets"
       end
     end

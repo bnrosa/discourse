@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 module EmberCli
+  ALIASES ||= {
+    "application" => "discourse",
+    "discourse/tests/test-support-rails" => "test-support",
+    "discourse/tests/test-helpers-rails" => "test-helpers"
+  }
+
   def self.enabled?
     ENV["EMBER_CLI_PROD_ASSETS"] != "0"
   end
@@ -28,16 +34,6 @@ module EmberCli
   # to use the new names
   def self.transform_name(name)
     return name if !enabled?
-
-    case name
-    when "application"
-      "discourse"
-    when "discourse/tests/test-support-rails"
-      "test-support"
-    when "discourse/tests/test-helpers-rails"
-      "test-helpers"
-    else
-      name
-    end
+    ALIASES[name] || name
   end
 end
